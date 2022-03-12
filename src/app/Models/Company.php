@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Company extends Model
+{
+    use HasFactory;
+    protected $fillable = [
+        'company_id',
+        'user_id',
+        'company_name',
+        'company_description',
+        'company_location',
+        'bedroom_price',
+        'livingroom_price',
+        'guestroom_price',
+        'kitchen_price',
+        'km_price',
+        'pack_price',
+        'status',
+        'company_rate',
+        'company_rate_count',
+        'company_bookings_count',
+        'company_image',
+    ];
+}
