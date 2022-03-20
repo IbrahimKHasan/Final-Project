@@ -50,16 +50,17 @@ class DashController extends Controller
                 }else{
                     $reviews=[];
                 }
+                $company_id = $id->company_id;
                 $nousers=User::all()->count();
-                $nobookings = DB::table('companies')->where('user_id',Auth::user()->id)->sum('company_bookings_count');
+                $nobookings = DB::table('company_users')->where('company_id',$company_id)->count();
                 // $revenue = 0;
                 // $users=[];
                 // foreach ($ids as $key => $value) {
                     // $id = $value->company_id;
-                    $revenue = DB::table('company_users')->where('company_id',$id)->sum('price')*0.9;
+                    $revenue = DB::table('company_users')->where('company_id',$company_id)->sum('price')*0.9;
                     $users = DB::table('company_users')
                     ->join('users','users.id','=','company_users.user_id')
-                    ->where('company_id',$id)
+                    ->where('company_id',$company_id)
                     ->distinct()
                     ->paginate(5);
                     // $users[] = $users_object[0];

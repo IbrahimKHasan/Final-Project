@@ -30,10 +30,13 @@
                                 <h5 class="fw-bold">{{ $company->company_name }}</h5>
                                 <div class="d-flex flex-row">
                                     <div class="ratings mr-2">
-                                        <span class="fw-bold">({{ $company->company_rate }})</span>
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                            class="fa fa-star"></i><i class="fa fa-star"></i>
-                                        <small class="fw-light">({{ $company->company_rate_count }})</small>
+                                        <?php $rate = ('App\Models\Review')::where('company_id', $company->company_id)->avg('review_rate'); ?>
+                                        <span class="fw-bold">({{ round($rate, 1) }})</span>
+                                        @for ($i = 1; $i <= ceil($rate); $i++)
+                                            <i class="fa fa-star"></i>
+                                        @endfor
+                                        <?php $rate_count = ('App\Models\Review')::where('company_id', $company->company_id)->count(); ?>
+                                        <small class="fw-light">({{ $rate_count }})</small>
                                     </div><span></span>
                                 </div>
                                 {{-- <small>No. of Bookings: {{ $company->company_bookings_count }}</small> --}}
