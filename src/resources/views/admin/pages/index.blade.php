@@ -55,63 +55,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="display:{{ $owners_display }}">
-                    <div class="col-md-12">
-                        <div class="main-card mb-3 card">
-                            @include('alerts.success')
-                            <div class="card-header">Owners Table
-                            </div>
-                            <div class="table-responsive">
-                                <table class="align-middle mb-0 table table-borderless table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th>User</th>
-                                            <th class="text-center">Phone</th>
-                                            <th class="text-center">Role</th>
-                                            <th class="text-center">Created At</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($owners as $owner)
-                                            <tr>
-                                                <td class="text-center text-muted">{{ $owner->id }}</td>
-                                                <td style="width: 15%">
-                                                    <div class="widget-content p-0">
-                                                        <div class="widget-content-wrapper">
-                                                            <div class="widget-content-left mr-3">
-                                                                <div class="widget-content-left">
-                                                                    <img width="40" class="rounded-circle"
-                                                                        src="{{ asset('assets/images/users/' . $owner->image) }}"
-                                                                        alt="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="widget-content-left flex2">
-                                                                <div class="widget-heading">{{ $owner->name }}</div>
-                                                                <div class="widget-subheading opacity-7">
-                                                                    {{ $owner->email }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $owner->phone }}
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $owner->role }}
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $owner->created_at }}
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="main-card mb-3 card">
@@ -202,6 +145,73 @@
                         </div>
                     </div>
                 </div>
+                @if ($users != [])
+                    <div class="pagination-content">
+                        {{ $users->links('pagination::bootstrap-4') }}
+                    </div>
+                @endif
+                @if ($owners_display)
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="main-card mb-3 card">
+                                @include('alerts.success')
+                                <div class="card-header">Owners Table
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">#</th>
+                                                <th>User</th>
+                                                <th class="text-center">Phone</th>
+                                                <th class="text-center">Role</th>
+                                                <th class="text-center">Created At</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($owners as $owner)
+                                                <tr>
+                                                    <td class="text-center text-muted">{{ $owner->id }}</td>
+                                                    <td style="width: 15%">
+                                                        <div class="widget-content p-0">
+                                                            <div class="widget-content-wrapper">
+                                                                <div class="widget-content-left mr-3">
+                                                                    <div class="widget-content-left">
+                                                                        <img width="40" class="rounded-circle"
+                                                                            src="{{ asset('assets/images/users/' . $owner->image) }}"
+                                                                            alt="">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="widget-content-left flex2">
+                                                                    <div class="widget-heading">{{ $owner->name }}</div>
+                                                                    <div class="widget-subheading opacity-7">
+                                                                        {{ $owner->email }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $owner->phone }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $owner->role }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $owner->created_at }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pagination-content">
+                        {{ $owners->links('pagination::bootstrap-4') }}
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-md-12">
                         <div class="main-card mb-3 card">
@@ -263,6 +273,11 @@
                         </div>
                     </div>
                 </div>
+                @if ($reviews != [])
+                    <div class="pagination-content">
+                        {{ $reviews->links('pagination::bootstrap-4') }}
+                    </div>
+                @endif
             </div>
         </div>
         <script src="http://maps.google.com/maps/api/js?sensor=true"></script>

@@ -71,7 +71,7 @@ class CompanyUserController extends Controller
     {
         //
         $company_id=$request->company_id;
-        DB::table('company_user')->where('booking_id',$id)->update([
+        DB::table('company_users')->where('booking_id',$id)->update([
             'status'=>$request->status
         ]);
 

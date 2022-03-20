@@ -21,62 +21,61 @@ class DashController extends Controller
         {
             case 'admin':
                 $nousers=User::all()->count();
-                $nobookings = DB::table('company_user')->count();
+                $nobookings = DB::table('company_users')->count();
                 $noowners = User::where('role','owner')->count();
-                $owners = User::where('role','owner')->get();
-                $revenue = DB::table('company_user')->sum('price')*0.10;
+                $owners = User::where('role','owner')->paginate(5);
+                $revenue = DB::table('company_users')->sum('price')*0.10;
                 $reviews = Review::
                 join('users','users.id','=','reviews.user_id')
                 ->join('companies','companies.company_id','=','reviews.company_id')
-                ->get();
-                $users = DB::table('company_user')
-                    ->join('users','users.id','=','company_user.user_id')
-                    ->get();
-                $owners_display='';
+                ->paginate(5);
+                $users = DB::table('company_users')
+                    ->join('users','users.id','=','company_users.user_id')
+                    ->paginate(5);
+                $owners_display=true;
                 return view('admin.pages.index',compact('owners_display','owners','noowners','reviews','nousers','nobookings','revenue','users'));
                 break;
             case 'owner':
                 $owners=[];
-                $owners_display="none";
+                $owners_display=false;
                 $noowners = User::where('role','owner')->count();
-                $ids_count = Company::where('user_id',Auth::user()->id)->first();
-                if ($ids_count!=null){
-                    $ids1 = $ids_count->company_id;
+                // $ids_count = Company::where('user_id',Auth::user()->id)->first();
+                $id = Company::where('user_id',Auth::user()->id)->first();
+                if ($id!=null){
+                    $id1 = $id->company_id;
                     $reviews = Review::join('users','users.id','=','reviews.user_id')
                                       ->join('companies','companies.company_id','=','reviews.company_id')
-                                      ->where('reviews.company_id',$ids1)
-                                      ->get();
+                                      ->where('reviews.company_id',$id1)
+                                      ->paginate(5);
                 }else{
                     $reviews=[];
                 }
-                $ids = Company::where('user_id',Auth::user()->id)->get();
                 $nousers=User::all()->count();
                 $nobookings = DB::table('companies')->where('user_id',Auth::user()->id)->sum('company_bookings_count');
-                $revenue = 0;
-                $users=[];
-                foreach ($ids as $key => $value) {
-                    $id = $value->company_id;
-                    $revenue += DB::table('company_user')->where('company_id',$id)->sum('price')*0.9;
-                    $users_object = DB::table('company_user')
-                    ->join('users','users.id','=','company_user.user_id')
+                // $revenue = 0;
+                // $users=[];
+                // foreach ($ids as $key => $value) {
+                    // $id = $value->company_id;
+                    $revenue = DB::table('company_users')->where('company_id',$id)->sum('price')*0.9;
+                    $users = DB::table('company_users')
+                    ->join('users','users.id','=','company_users.user_id')
                     ->where('company_id',$id)
                     ->distinct()
-                    ->get();
-                    $users[] = $users_object[0];
-                  }
+                    ->paginate(5);
+                    // $users[] = $users_object[0];
+                //   }
+                if ($id==null){
+                    $nobookings=0;
+                    $revenue = 0;
+                    $users = [];
+                }
                 return view('admin.pages.index',compact('owners_display','owners','noowners','reviews','nousers','nobookings','revenue','users'));
                 break;
-            default:
-                $nousers=User::all()->count();
-                $nobookings = DB::table('company_user')->count();
-                $revenue = DB::table('company_user')->sum('price')*0.10;
-                return view('admin.pages.index',compact('nousers','nobookings','revenue','users'));
-                break;
         }
-        // $users = DB::table('company_user')
-        // ->select('*', 'company_user.status as booking_status')
-        // ->join('companies','companies.company_id','=','company_user.company_id')
-        // ->where('company_user.user_id',Auth::user()->id)
+        // $users = DB::table('company_users')
+        // ->select('*', 'company_users.status as booking_status')
+        // ->join('companies','companies.company_id','=','company_users.company_id')
+        // ->where('company_users.user_id',Auth::user()->id)
         // ->get();
     }
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     /**
@@ -14,8 +14,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=User::all();
-        return view('admin.pages.users',compact('users'));
+        $show_form=true;
+        $users=User::paginate(5);
+        return view('admin.pages.users',compact('users','show_form'));
     }
 
     /**
@@ -37,6 +38,7 @@ class UserController extends Controller
     public function store(Request $data)
     {
         //
+        if ($data->type == "add"){
         if ($data->image != null){
         $image = 'IMG'.'-'.time().'.'.$data->image->extension();
         $data->image->move(public_path('assets/images/users'),$image);
@@ -52,6 +54,19 @@ class UserController extends Controller
             'image'=>$image
         ]);
         return redirect()->route('admin.manage-users.index')->with('success','User Added Successfully');
+    }
+    if ($data->type == "search"){
+        $show_form = false;
+        $search_text = $data->search;
+        $users=DB::table('users')
+        ->select('*')
+        ->orWhere('name', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('email', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('phone', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('role', 'LIKE', '%'.$search_text.'%')
+        ->paginate(5);
+        return view('admin.pages.users',compact('users','show_form'));
+    }
     }
 
     /**

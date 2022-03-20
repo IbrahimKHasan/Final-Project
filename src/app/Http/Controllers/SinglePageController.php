@@ -44,8 +44,8 @@ class SinglePageController extends Controller
         $guestroom_price = $data['guestroom_no'] * $data['guestroom_price'];
         $kitchen_price = $data['kitchen_no'] * $data['kitchen_price'];
         $km_price = $data['km_no'] * $data['km_price'];
-        $not_available_time = DB::table('company_user')->where('company_id',$data['company_id'])->select('date')->get();
-        $not_available_time_count = DB::table('company_user')->where('company_id',$data['company_id'])->count();
+        $not_available_time = DB::table('company_users')->where('company_id',$data['company_id'])->select('date')->get();
+        $not_available_time_count = DB::table('company_users')->where('company_id',$data['company_id'])->count();
         foreach ($not_available_time as $value) {
             if ($value->date ==$data['date']){
                 $date_check = false;
@@ -65,7 +65,7 @@ class SinglePageController extends Controller
         }
         $price = $bedroom_price + $livingroom_price + $guestroom_price + $kitchen_price + $km_price + $pack_price;
         if ($date_check){
-        DB::table('company_user')->insert([
+        DB::table('company_users')->insert([
             'user_id'=>Auth::user()->id,
             'company_id'=>$data['company_id'],
             'user_email'=>Auth::user()->email,
@@ -74,7 +74,7 @@ class SinglePageController extends Controller
             'date'=>$data['date']
         ]);
         Company::where('company_id',$data['company_id'])->update([
-            'company_bookings_count'=>DB::table('company_user')->where('company_id',$data['company_id'])->count()
+            'company_bookings_count'=>DB::table('company_users')->where('company_id',$data['company_id'])->count()
         ]);
         Alert::success('Booked Successfully', "You are booked successfully, the price is: $price JD");
         return redirect()->route('company.show',$data['company_id'])->with('success','Booked Successfully');
@@ -91,13 +91,13 @@ class SinglePageController extends Controller
     public function show($id)
     {
         //
-        $not_available_time = DB::table('company_user')->where('company_id',$id)->select('date')->get();
+        $not_available_time = DB::table('company_users')->where('company_id',$id)->select('date')->get();
         foreach ($not_available_time as $value) {
             if ($value->date ==date("Y-m-d")){
                 Company::where('company_id',$id)->update([
                     'status'=>'Not Available',
                 ]);
-                DB::table('company_user')->where('company_id',$id)->update([
+                DB::table('company_users')->where('company_id',$id)->update([
                     'status'=>'in progress'
                 ]);
             }
@@ -111,7 +111,7 @@ class SinglePageController extends Controller
         $company=Company::where('company_id',$id)->first();
         if (Auth::user()!=null){
         $user = Review::where('user_id',Auth::user()->id)->where('company_id',$id)->count();
-        $booking = DB::table('company_user')->where('user_id',Auth::user()->id)->count();
+        $booking = DB::table('company_users')->where('user_id',Auth::user()->id)->count();
         if ($booking > 0){
         if ($user==1){
             $check = 'no';

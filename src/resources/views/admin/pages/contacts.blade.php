@@ -5,6 +5,17 @@
     <div class="app-main__outer">
         <div class="app-main__inner">
             <div class="col-lg-12">
+                <div class="mb-4" style="width: 100%">
+                    <form action="{{ route('admin.manage-contacts.store') }}" method="post">
+                        @csrf
+                        <div style="width: 40%;display:inline-block">
+                            <input class="form-control" type="text" name="search" placeholder="Search">
+                        </div>
+                        <div style="display:inline-block">
+                            <input class="btn btn-primary" type="submit" value="Search">
+                        </div>
+                    </form>
+                </div>
                 <div class="main-card mb-3 card">
                     <div class="card-body table-responsive">
                         @include('alerts.success')
@@ -43,7 +54,13 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        @if ($contacts[0] == null)
+                            <h1 class="text-center">No Result</h1>
+                        @endif
                     </div>
+                </div>
+                <div class="pagination-content">
+                    {{ $contacts->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>

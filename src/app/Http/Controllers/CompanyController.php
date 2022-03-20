@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 class CompanyController extends Controller
 {
@@ -16,19 +17,20 @@ class CompanyController extends Controller
      */
     public function index()
     {
+        $show_form=true;
         switch (Auth::user()->role)
         {
             case 'admin':
                 $companies=Company::paginate(2);
-                return view('admin.pages.companies',compact('companies'));
+                return view('admin.pages.companies',compact('companies','show_form'));
                 break;
             case 'owner':
-                $companies=Company::where('user_id',Auth::user()->id)->get();
-                return view('admin.pages.companies',compact('companies'));
+                $companies=Company::where('user_id',Auth::user()->id)->paginate(2);
+                return view('admin.pages.companies',compact('companies','show_form'));
                 break;
             default:
                 $companies=Company::all();
-                return view('admin.pages.companies',compact('companies'));
+                return view('admin.pages.companies',compact('companies','show_form'));
                 break;
         }
     }
@@ -53,25 +55,39 @@ class CompanyController extends Controller
     {
         //
         // dd($data);
-
+        if ($data->type == "add"){
         $image = 'IMG'.'-'.time().'.'.$data->company_image->extension();
         $data->company_image->move(public_path('assets/images/companies'),$image);
         Company::create([
             'user_id'=>Auth::user()->id,
-            'company_name' => $data['company_name'],
-            'company_email' => $data['company_email'],
-            'company_phone' => $data['company_phone'],
+            'company_name'        => $data['company_name'],
+            'company_email'       => $data['company_email'],
+            'company_phone'       => $data['company_phone'],
             'company_description' => $data['company_description'],
-            'company_location' => $data['company_location'],
-            'bedroom_price' => $data['bedroom_price'],
-            'livingroom_price' => $data['livingroom_price'],
-            'guestroom_price' => $data['guestroom_price'],
-            'kitchen_price' => $data['kitchen_price'],
-            'km_price' => $data['km_price'],
-            'pack_price' => $data['pack_price'],
-            'company_image'=>$image
+            'company_location'    => $data['company_location'],
+            'bedroom_price'       => $data['bedroom_price'],
+            'livingroom_price'    => $data['livingroom_price'],
+            'guestroom_price'     => $data['guestroom_price'],
+            'kitchen_price'       => $data['kitchen_price'],
+            'km_price'            => $data['km_price'],
+            'pack_price'          => $data['pack_price'],
+            'company_image'       => $image
         ]);
         return redirect()->route('admin.manage-companies.index')->with('success','Company Added Successfully');
+    }
+        if ($data->type == "search"){
+        $show_form = false;
+        $search_text = $data->search;
+        $companies=DB::table('companies')
+        ->select('*')
+        ->orWhere('company_name', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('company_description', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('company_location', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('company_email', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('company_phone', 'LIKE', '%'.$search_text.'%')
+        ->paginate(5);
+        return view('admin.pages.companies',compact('companies','show_form'));
+    }
     }
 
     /**

@@ -24,7 +24,9 @@
                         <small class="fw-light">({{ $count }})</small>
                     </div><span></span>
                 </div>
-                <small>No. of Bookings: {{ $company->company_bookings_count }}</small>
+                {{-- <small>No. of Bookings: {{ $company->company_bookings_count }}</small> --}}
+                <?php $count = ('App\Models\CompanyUser')::where('company_id', $company->company_id)->count(); ?>
+                <small>No. of Bookings: {{ $count }}</small>
                 <h6
                     class="@if ($company->status == 'Not Available') text-danger @endif fw-bold  @if ($company->status == 'Available') text-success @endif">
                     {{ $company->status }}</h6>

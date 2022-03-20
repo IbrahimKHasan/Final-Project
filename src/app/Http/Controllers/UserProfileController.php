@@ -15,13 +15,13 @@ class UserProfileController extends Controller
      */
     public function index()
     {
-        $user = DB::table('company_user')
-        ->select('*', 'company_user.status as booking_status')
-        ->join('companies','companies.company_id','=','company_user.company_id')
-        ->where('company_user.user_id',Auth::user()->id)
+        $user = DB::table('company_users')
+        ->select('*', 'company_users.status as booking_status')
+        ->join('companies','companies.company_id','=','company_users.company_id')
+        ->where('company_users.user_id',Auth::user()->id)
         ->get();
-        $count = DB::table('company_user')->where('company_user.user_id',Auth::user()->id)->count();
-        $price = DB::table('company_user')->where('company_user.user_id',Auth::user()->id)->sum('price');
+        $count = DB::table('company_users')->where('company_users.user_id',Auth::user()->id)->count();
+        $price = DB::table('company_users')->where('company_users.user_id',Auth::user()->id)->sum('price');
         return view('public.pages.user',compact('user','count','price'));
     }
 

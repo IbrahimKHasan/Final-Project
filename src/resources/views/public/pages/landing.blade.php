@@ -39,7 +39,9 @@
                                         <small class="fw-light">({{ $company->company_rate_count }})</small>
                                     </div><span></span>
                                 </div>
-                                <small>No. of Bookings: {{ $company->company_bookings_count }}</small>
+                                {{-- <small>No. of Bookings: {{ $company->company_bookings_count }}</small> --}}
+                                <?php $count = ('App\Models\CompanyUser')::where('company_id', $company->company_id)->count(); ?>
+                                <small>No. of Bookings: {{ $count }}</small>
                                 <div class="mt-1 mb-1 spec-1"><span>Bedroom: {{ $company->bedroom_price }}
                                         JD</span><span class="dot"></span><span>Livingroom:
                                         {{ $company->livingroom_price }}
@@ -100,7 +102,9 @@
                                         <small class="fw-light">({{ $company->company_rate_count }})</small>
                                     </div><span></span>
                                 </div>
-                                <small>No. of Bookings: {{ $company->company_bookings_count }}</small>
+                                {{-- <small>No. of Bookings: {{ $company->company_bookings_count }}</small> --}}
+                                <?php $count = ('App\Models\CompanyUser')::where('company_id', $company->company_id)->count(); ?>
+                                <small>No. of Bookings: {{ $count }}</small>
                                 <div class="mt-1 mb-1 spec-1"><span>Bedroom: {{ $company->bedroom_price }}
                                         JD</span><span class="dot"></span><span>Livingroom:
                                         {{ $company->livingroom_price }}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ContactAdminController extends Controller
 {
@@ -14,7 +15,7 @@ class ContactAdminController extends Controller
     public function index()
     {
         //
-        $contacts = Contact::all();
+        $contacts = Contact::paginate(5);
         return view('admin.pages.contacts',compact('contacts'));
     }
 
@@ -37,6 +38,15 @@ class ContactAdminController extends Controller
     public function store(Request $request)
     {
         //
+        $search_text = $request->search;
+        $contacts=DB::table('contacts')
+        ->select('*')
+        ->orWhere('contact_name', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('contact_email', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('contact_phone', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('contact_message', 'LIKE', '%'.$search_text.'%')
+        ->paginate(5);
+        return view('admin.pages.contacts',compact('contacts'));
     }
 
     /**
