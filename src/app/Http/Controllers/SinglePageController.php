@@ -113,7 +113,7 @@ class SinglePageController extends Controller
         $user = Review::where('user_id',Auth::user()->id)->where('company_id',$id)->count();
         $booking = DB::table('company_users')->where('user_id',Auth::user()->id)->count();
         if ($booking > 0){
-        if ($user==1){
+        if ($user>=1){
             $check = 'no';
         }else{
             $check = 'yes';

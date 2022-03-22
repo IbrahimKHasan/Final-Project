@@ -9,7 +9,7 @@
         <p class="p-slider-font">Search for any company by Name, Description or Location</p>
         <form action="{{ route('companies.store') }}" method="post">
             @csrf
-            <div style="width: 40%;display:inline-block">
+            <div style="width: 31%;display:inline-block">
                 <input class="form-control" type="text" name="search" placeholder="Search">
             </div>
             <div style="display:inline-block">

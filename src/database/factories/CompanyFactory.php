@@ -15,7 +15,7 @@ class CompanyFactory extends Factory
     {
         return [
             //
-            'user_id' => $this->faker->unique()->numberBetween(12,21),
+            'user_id' => $this->faker->unique()->numberBetween(102,151),
             'company_name' => $this->faker->unique()->name(),
             'company_email' => $this->faker->unique()->safeEmail(),
             'company_phone' => $this->faker->phoneNumber(),

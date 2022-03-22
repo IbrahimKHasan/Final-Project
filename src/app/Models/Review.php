@@ -15,4 +15,9 @@ class Review extends Model
         'review_body',
         'review_rate',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class,'company_id','company_id');
+    }
 }

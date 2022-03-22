@@ -19,10 +19,17 @@ class UserProfileController extends Controller
         ->select('*', 'company_users.status as booking_status')
         ->join('companies','companies.company_id','=','company_users.company_id')
         ->where('company_users.user_id',Auth::user()->id)
+        ->orderBy('company_users.date','DESC')
+        ->get();
+        $reviews = DB::table('reviews')
+        ->select('*')
+        ->join('companies','companies.company_id','=','reviews.company_id')
+        ->where('reviews.user_id',Auth::user()->id)
+        ->orderBy('reviews.created_at','DESC')
         ->get();
         $count = DB::table('company_users')->where('company_users.user_id',Auth::user()->id)->count();
         $price = DB::table('company_users')->where('company_users.user_id',Auth::user()->id)->sum('price');
-        return view('public.pages.user',compact('user','count','price'));
+        return view('public.pages.user',compact('user','count','price','reviews'));
     }
 
     /**

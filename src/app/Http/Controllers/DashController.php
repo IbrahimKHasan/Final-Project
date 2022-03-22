@@ -28,9 +28,11 @@ class DashController extends Controller
                 $reviews = Review::
                 join('users','users.id','=','reviews.user_id')
                 ->join('companies','companies.company_id','=','reviews.company_id')
+                ->orderBy('reviews.created_at','DESC')
                 ->paginate(5);
                 $users = DB::table('company_users')
                     ->join('users','users.id','=','company_users.user_id')
+                    ->orderBy('company_users.date','ASC')
                     ->paginate(5);
                 $owners_display=true;
                 return view('admin.pages.index',compact('owners_display','owners','noowners','reviews','nousers','nobookings','revenue','users'));
@@ -46,6 +48,7 @@ class DashController extends Controller
                     $reviews = Review::join('users','users.id','=','reviews.user_id')
                                       ->join('companies','companies.company_id','=','reviews.company_id')
                                       ->where('reviews.company_id',$id1)
+                                      ->orderBy('reviews.created_at','DESC')
                                       ->paginate(5);
                 }else{
                     $reviews=[];
@@ -62,6 +65,7 @@ class DashController extends Controller
                     ->join('users','users.id','=','company_users.user_id')
                     ->where('company_id',$company_id)
                     ->distinct()
+                    ->orderBy('company_users.date','ASC')
                     ->paginate(5);
                     // $users[] = $users_object[0];
                 //   }
@@ -99,6 +103,18 @@ class DashController extends Controller
     public function store(Request $request)
     {
         //
+
+        // $search_text = $request->search;
+        // $users=DB::table('company_users')
+        // ->join('users','users.id','=','company_users.user_id')
+        // ->Where('users.name', 'LIKE', '%'.$search_text.'%')
+        // ->orWhere('users.email', 'LIKE', '%'.$search_text.'%')
+        // ->orWhere('users.phone', 'LIKE', '%'.$search_text.'%')
+        // ->orWhere('users.role', 'LIKE', '%'.$search_text.'%')
+        // ->distinct()
+        // ->orderBy('company_users.date','ASC')
+        // ->paginate(5);
+        // return view('admin.pages.index',compact('owners_display','owners','noowners','reviews','nousers','nobookings','revenue','users'));
     }
 
     /**

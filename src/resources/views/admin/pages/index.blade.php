@@ -46,10 +46,10 @@
                         <div class="card mb-3 widget-content bg-grow-early">
                             <div class="widget-content-wrapper text-white">
                                 <div class="widget-content-left">
-                                    <div class="widget-heading">Total Revenue</div>
+                                    <div class="widget-heading">Total Revenue (JD)</div>
                                 </div>
                                 <div class="widget-content-right">
-                                    <div class="widget-numbers text-white"><span>{{ $revenue }} JD</span></div>
+                                    <div class="widget-numbers text-white"><span>{{ $revenue }}</span></div>
                                 </div>
                             </div>
                         </div>
@@ -183,7 +183,8 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="widget-content-left flex2">
-                                                                    <div class="widget-heading">{{ $owner->name }}</div>
+                                                                    <div class="widget-heading">{{ $owner->name }}
+                                                                    </div>
                                                                     <div class="widget-subheading opacity-7">
                                                                         {{ $owner->email }}
                                                                     </div>
@@ -245,7 +246,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="widget-content-left flex2">
-                                                                <div class="widget-heading">{{ $review->name }}</div>
+                                                                <div class="widget-heading">{{ $review->name }}
+                                                                </div>
                                                                 <div class="widget-subheading opacity-7">
                                                                     {{ $review->email }}
                                                                 </div>

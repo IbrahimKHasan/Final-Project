@@ -14,7 +14,6 @@
         <div class="row">
             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12">
                 <h2 class="d-inline-block">{{ $company->company_name }}</h2>
-                <small> ({{ $company->company_location }})</small>
                 <div class="d-flex flex-row">
                     <div class="ratings mr-2">
                         <span class="fw-bold">{{ round($rate, 1) }}</span>
@@ -37,6 +36,7 @@
                 <p>{{ $company->company_description }}</p>
                 <p class="fw-bold">Email: {{ $company->company_email }}</p>
                 <p class="fw-bold">Phone: {{ $company->company_phone }}</p>
+                <p class="fw-bold">Location: {{ $company->company_location }}</p>
                 <h4 class='text-decoration-underline'>Not Available Dates</h4>
                 @foreach ($not_available_time as $time)
                     <li style="color:red;font-weight:bold">{{ $time->date }}</li>

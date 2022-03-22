@@ -11,8 +11,8 @@
                             <div class="account-settings">
                                 <div class="user-profile">
                                     <img style="width: 40%;
-                                                                                                                                                    margin: auto;
-                                                                                                                                                     display: block;"
+                                                                                                                                                                        margin: auto;
+                                                                                                                                                                         display: block;"
                                         src="{{ asset('assets/images/users/' . Auth::user()->image) }}"
                                         alt="Maxwell Admin">
                                     <h5 class="user-name text-center">{{ Auth::user()->name }}</h5>
@@ -106,6 +106,32 @@
                                 <span
                                     class="text-white p-1 @if ($item->booking_status == 'completed') bg-success @endif @if ($item->booking_status == 'pending') bg-warning @endif  @if ($item->booking_status == 'in progress') bg-danger @endif">{{ $item->booking_status }}</span>
                             </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <h1 class="text-center">My Reviews</h1>
+            <br>
+            <table class="table mb-5">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">#</th>
+                        <th scope="col">Company Name</th>
+                        <th scope="col">Review Body</th>
+                        <th scope="col">Review Rate</th>
+                        <th scope="col">Created at</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($reviews as $review)
+                        <tr style="text-align: center">
+                            <td>{{ $review->review_id }}</td>
+                            <td><a
+                                    href="{{ route('company.show', $review->company_id) }}">{{ $review->company_name }}</a>
+                            </td>
+                            <td>{{ $review->review_body }}</td>
+                            <td>{{ $review->review_rate }}</td>
+                            <td>{{ $review->created_at }}</td>
                         </tr>
                     @endforeach
                 </tbody>
