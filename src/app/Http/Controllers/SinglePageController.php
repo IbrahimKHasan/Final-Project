@@ -121,16 +121,16 @@ class SinglePageController extends Controller
     }else{
         $check = 'no booking';
     }
-        if ($booking > 0){
-            $booking_check = true;
-        }else{
-            $booking_check = false;
-        }
+        // if ($booking > 0){
+        //     $booking_check = true;
+        // }else{
+        //     $booking_check = false;
+        // }
     }
     if (Auth::user()==null){
-        $check = 'gust';
+        $check = 'guest';
     }
-        return view('public.pages.singlepage',compact('booking_check','company','not_available_time','reviews','rate','count','check'));
+        return view('public.pages.singlepage',compact('company','not_available_time','reviews','rate','count','check'));
     }
 
     /**

@@ -22,6 +22,31 @@ class ReviewController extends Controller
     public function index()
     {
         //
+        if (Auth::user()->role=="admin"){
+        $reviews = DB::table('reviews')
+        ->select('*')
+        ->join('companies','companies.company_id','=','reviews.company_id')
+        ->join('users','users.id','=','reviews.user_id')
+        ->orderBy('reviews.created_at','DESC')
+        ->paginate(10);
+        return view('admin.pages.reviews',compact('reviews'));
+        }else{
+            $company = Company::where('user_id',Auth::user()->id)->first();
+            if ($company!=null){
+                $id = $company->company_id;
+            $reviews = DB::table('reviews')
+            ->select('*')
+            ->join('companies','companies.company_id','=','reviews.company_id')
+            ->join('users','users.id','=','reviews.user_id')
+            ->where('reviews.company_id',$id)
+            ->orderBy('reviews.created_at','DESC')
+            ->paginate(10);
+            }
+            if ($company==null){
+                $reviews=[];
+            }
+            return view('admin.pages.reviews',compact('reviews'));
+        }
     }
 
     /**
@@ -32,6 +57,7 @@ class ReviewController extends Controller
     public function create()
     {
         //
+
     }
 
     /**
@@ -42,6 +68,18 @@ class ReviewController extends Controller
      */
     public function store(Request $data)
     {
+        if ($data['type']=="search"){
+        $search_text = $data->search;
+        $reviews=DB::table('reviews')
+        ->select('*')
+        ->join('companies','companies.company_id','=','reviews.company_id')
+        ->join('users','users.id','=','reviews.user_id')
+        ->orWhere('users.name', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('companies.company_name', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('review_body', 'LIKE', '%'.$search_text.'%')
+        ->paginate(10);
+        return view('admin.pages.reviews',compact('reviews'));
+        }else{
         Review::create([
             'user_id'=>Auth::user()->id,
             'company_id'=>$data['company_id'],
@@ -56,34 +94,9 @@ class ReviewController extends Controller
             ]);
         Alert::success('Review Sent Successfully');
         return redirect()->route('company.show',$data['company_id'])->with('success','Review Sent Successfully');
-        // $not_available_time = DB::table('company_user')->where('company_id',$data['company_id'])->select('date')->get();
-        // foreach ($not_available_time as $value) {
-        //     if ($value->date ==date("Y-m-d")){
-        //         Company::where('company_id',$data['company_id'])->update([
-        //             'status'=>'Not Available',
-        //         ]);
-        //     }
-        // }
-        // $reviews = Review::where('company_id',$data['company_id'])
-        // ->join('users','users.id','=','reviews.user_id')
-        // ->orderBy('reviews.created_at','desc')
-        // ->get();
-        // $rate = Review::where('company_id',$data['company_id'])->avg('review_rate');
-        // $count = Review::where('company_id',$data['company_id'])->count();
-        // $user = Review::where('user_id',Auth::user()->id)->count();
-        // if ($user==1){
-        //     $check = true;
-        // }else{
-        //     $check = false;
-        // }
-        // $company=Company::where('company_id',$data['company_id'])->first();
-        // Company::where('company_id',$data['company_id'])->update([
-        //     'company_rate'=>round($rate,1),
-        //     'company_rate_count'=>$count,
-        // ]);
         $company_id = $data['company_id'];
-        // return view('public.pages.singlepage',compact('company','not_available_time','reviews','rate','count','check'));
-        // header("location:http://127.0.0.1:8000/company/$company_id");
+        }
+
     }
 
     /**

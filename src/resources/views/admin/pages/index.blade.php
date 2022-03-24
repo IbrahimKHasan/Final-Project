@@ -59,7 +59,7 @@
                     <div class="col-md-12">
                         <div class="main-card mb-3 card">
                             @include('alerts.success')
-                            <div class="card-header">Users Bookings
+                            <div class="card-header">Latest Users Bookings
                             </div>
                             <div class="table-responsive">
                                 <table class="align-middle mb-0 table table-borderless table-striped table-hover">
@@ -67,6 +67,9 @@
                                         <tr>
                                             <th class="text-center">#</th>
                                             <th>User</th>
+                                            @if (Auth::user()->role == 'admin')
+                                                <th class="text-center">Company</th>
+                                            @endif
                                             <th class="text-center">Phone</th>
                                             <th class="text-center">Price</th>
                                             <th class="text-center">Status</th>
@@ -97,6 +100,12 @@
                                                         </div>
                                                     </div>
                                                 </td>
+                                                @if (Auth::user()->role == 'admin')
+                                                    <td class="text-center">
+                                                        <a href="{{ route('company.show', $user->company_id) }}">{{ $user->company_name }}
+                                                        </a>
+                                                    </td>
+                                                @endif
                                                 <td class="text-center">
                                                     {{ $user->phone }}
                                                 </td>
@@ -145,17 +154,11 @@
                         </div>
                     </div>
                 </div>
-                @if ($users != [])
-                    <div class="pagination-content">
-                        {{ $users->links('pagination::bootstrap-4') }}
-                    </div>
-                @endif
                 @if ($owners_display)
                     <div class="row">
                         <div class="col-md-12">
                             <div class="main-card mb-3 card">
-                                @include('alerts.success')
-                                <div class="card-header">Owners Table
+                                <div class="card-header">Latest Owners Table
                                 </div>
                                 <div class="table-responsive">
                                     <table class="align-middle mb-0 table table-borderless table-striped table-hover">
@@ -163,6 +166,7 @@
                                             <tr>
                                                 <th class="text-center">#</th>
                                                 <th>User</th>
+                                                <th class="text-center">Company</th>
                                                 <th class="text-center">Phone</th>
                                                 <th class="text-center">Role</th>
                                                 <th class="text-center">Created At</th>
@@ -193,6 +197,10 @@
                                                         </div>
                                                     </td>
                                                     <td class="text-center">
+                                                        <a href="{{ route('company.show', $owner->company_id) }}">{{ $owner->company_name }}
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center">
                                                         {{ $owner->phone }}
                                                     </td>
                                                     <td class="text-center">
@@ -209,15 +217,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pagination-content">
-                        {{ $owners->links('pagination::bootstrap-4') }}
-                    </div>
                 @endif
                 <div class="row">
                     <div class="col-md-12">
                         <div class="main-card mb-3 card">
-                            @include('alerts.success')
-                            <div class="card-header">Users Reviews
+                            <div class="card-header">Latest Users Reviews
                             </div>
                             <div class="table-responsive">
                                 <table class="align-middle mb-0 table table-borderless table-striped table-hover">
@@ -256,7 +260,8 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $review->company_name }}
+                                                    <a href="{{ route('company.show', $review->company_id) }}">{{ $review->company_name }}
+                                                    </a>
                                                 </td>
                                                 <td class="text-center">
                                                     {{ $review->review_body }}
@@ -275,11 +280,6 @@
                         </div>
                     </div>
                 </div>
-                @if ($reviews != [])
-                    <div class="pagination-content">
-                        {{ $reviews->links('pagination::bootstrap-4') }}
-                    </div>
-                @endif
             </div>
         </div>
         <script src="http://maps.google.com/maps/api/js?sensor=true"></script>

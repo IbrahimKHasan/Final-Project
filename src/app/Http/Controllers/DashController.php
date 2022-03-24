@@ -23,17 +23,23 @@ class DashController extends Controller
                 $nousers=User::all()->count();
                 $nobookings = DB::table('company_users')->count();
                 $noowners = User::where('role','owner')->count();
-                $owners = User::where('role','owner')->paginate(5);
+                $owners = User::where('role','owner')
+                ->join('companies','companies.user_id','=','users.id')
+                ->take(5)->get();
                 $revenue = DB::table('company_users')->sum('price')*0.10;
                 $reviews = Review::
                 join('users','users.id','=','reviews.user_id')
                 ->join('companies','companies.company_id','=','reviews.company_id')
                 ->orderBy('reviews.created_at','DESC')
-                ->paginate(5);
+                ->take(5)
+                ->get();
                 $users = DB::table('company_users')
+                ->select('*','company_users.status as status')
                     ->join('users','users.id','=','company_users.user_id')
-                    ->orderBy('company_users.date','ASC')
-                    ->paginate(5);
+                    ->join('companies','companies.company_id','=','company_users.company_id')
+                    ->orderBy('company_users.date','DESC')
+                    ->take(5)
+                    ->get();
                 $owners_display=true;
                 return view('admin.pages.index',compact('owners_display','owners','noowners','reviews','nousers','nobookings','revenue','users'));
                 break;
@@ -53,10 +59,10 @@ class DashController extends Controller
                 }else{
                     $reviews=[];
                 }
-                $company_id = $id->company_id;
-                $nousers=User::all()->count();
-                $nobookings = DB::table('company_users')->where('company_id',$company_id)->count();
-                // $revenue = 0;
+                if($id != null){
+                  $company_id = $id->company_id;
+                  $nobookings = DB::table('company_users')->where('company_id',$company_id)->count();
+                  // $revenue = 0;
                 // $users=[];
                 // foreach ($ids as $key => $value) {
                     // $id = $value->company_id;
@@ -68,7 +74,9 @@ class DashController extends Controller
                     ->orderBy('company_users.date','ASC')
                     ->paginate(5);
                     // $users[] = $users_object[0];
-                //   }
+                    //   }
+                }
+                    $nousers=User::all()->count();
                 if ($id==null){
                     $nobookings=0;
                     $revenue = 0;

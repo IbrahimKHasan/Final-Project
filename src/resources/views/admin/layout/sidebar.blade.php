@@ -45,6 +45,12 @@
                     <li class="app-sidebar__heading">Manages</li>
                     @if (Auth::user()->role !== 'owner')
                         <li>
+                            <a href="{{ route('admin.owners.index') }}" @yield('owner-active')>
+                                <i class="metismenu-icon pe-7s-display2"></i>
+                                Owners
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('admin.manage-users.index') }}" @yield('user-active')>
                                 <i class="metismenu-icon pe-7s-display2"></i>
                                 Manage Users
@@ -61,6 +67,18 @@
                         <a href="{{ route('admin.manage-contacts.index') }}" @yield('contact-active')>
                             <i class="metismenu-icon pe-7s-display2"></i>
                             Manage Contacts
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.manage-reviews.index') }}" @yield('review-active')>
+                            <i class="metismenu-icon pe-7s-display2"></i>
+                            Manage Reviews
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.booking.index') }}" @yield('booking-active')>
+                            <i class="metismenu-icon pe-7s-display2"></i>
+                            Manage Bookings
                         </a>
                     </li>
                 </ul>

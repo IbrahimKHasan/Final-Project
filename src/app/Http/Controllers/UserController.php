@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $show_form=true;
-        $users=User::paginate(5);
+        $users=User::orderBy('created_at','DESC')->paginate(5);
         return view('admin.pages.users',compact('users','show_form'));
     }
 
