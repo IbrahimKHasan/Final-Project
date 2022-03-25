@@ -344,7 +344,7 @@
                     </div>
                 </div>
             @endforeach
-            <div class="pagination-content">
+            <div class="pagination-content table-responsive">
                 {{ $companies->links('pagination::bootstrap-4') }}
             </div>
         </div>

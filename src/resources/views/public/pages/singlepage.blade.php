@@ -13,7 +13,7 @@
     <section class="company-section">
         <div class="row">
             <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12">
-                <h2 class="d-inline-block">{{ $company->company_name }}</h2>
+                <h1 class="d-inline-block">{{ $company->company_name }}</h1>
                 <div class="d-flex flex-row">
                     <div class="ratings mr-2">
                         <span class="fw-bold">{{ round($rate, 1) }}</span>

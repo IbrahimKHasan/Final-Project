@@ -30,7 +30,7 @@
                                         src="{{ asset('assets/images/companies/' . $company->company_image) }}"></a>
                             </div>
                             <div class="col-md-6 mt-1">
-                                <h5 class="fw-bold">{{ $company->company_name }}</h5>
+                                <h2 class="fw-bold">{{ $company->company_name }}</h2>
                                 <div class="d-flex flex-row">
                                     <div class="ratings mr-2">
                                         <?php $rate = ('App\Models\Review')::where('company_id', $company->company_id)->avg('review_rate'); ?>

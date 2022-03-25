@@ -185,7 +185,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="pagination-content">
+                <div class="pagination-content table-responsive">
                     {{ $users->links('pagination::bootstrap-4') }}
                 </div>
             </div>

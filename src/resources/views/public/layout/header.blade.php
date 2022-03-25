@@ -59,7 +59,7 @@
                     <a class="nav-link" href="{{ route('contact.index') }}">Contact Us</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ms-auto mr-3">
+            <ul class="navbar-nav ms-auto mr-3 burger-menu-login">
                 @if (Auth::user() !== null)
                     <li class="nav-item dropdown">
                         <a class="d-inline solid " href="/register"><img class="rounded-circle"
@@ -88,10 +88,6 @@
                     </li>
                 @endif
             </ul>
-            {{-- <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form> --}}
         </div>
     </nav>
     <div class="breadcrumb-container" style="display:@yield('none')" aria-label="breadcrumb">

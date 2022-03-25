@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 @if ($reviews != null)
-                    <div class="pagination-content">
+                    <div class="pagination-content table-responsive">
                         {{ $reviews->links('pagination::bootstrap-4') }}
                     </div>
                 @endif

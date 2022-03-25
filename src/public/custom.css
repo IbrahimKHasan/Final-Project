@@ -1,5 +1,6 @@
 body {
     height: 100%;
+    overflow-x: hidden;
 }
 .nav-item::after {
     content: "";
@@ -33,7 +34,7 @@ body {
     position: absolute;
     left: 5%;
     top:5%;
-    width: 100%;
+    width: 93%;
 }
 .slider-font{
     color: white;
@@ -218,7 +219,12 @@ h5 {
         font-family: sans-serif;
     }
 }
-
+@media (max-width: 990px) {
+    .burger-menu-login{
+    padding-left: 140px;
+    margin: auto !important;
+    }
+}
 @media (max-width: 769px) {
     .search-form{
         position: absolute;
@@ -251,8 +257,15 @@ h5 {
 
 
 @media (max-width: 600px) {
+
     .footer-upper {
-        display: none;
+        flex-direction: column;
+        height: auto;
+        align-items: space-around;
+    }
+
+    .res{
+        margin-left: -40px;
     }
 }
 
@@ -280,7 +293,6 @@ h5 {
             position: absolute;
             left: 5%;
             top:1%;
-            width: 100%;
         }
         .slider-font{
             color: white;
@@ -307,7 +319,6 @@ h5 {
         position: absolute;
         left: 5%;
         top:1.2%;
-        width: 100%;
     }
     .slider-font{
         color: white;
@@ -326,7 +337,6 @@ h5 {
         position: absolute;
         left: 5%;
         top:1%;
-        width: 100%;
     }
     .slider-font{
         font-size: 10px;
