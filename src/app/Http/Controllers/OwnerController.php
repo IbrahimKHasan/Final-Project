@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class OwnerController extends Controller
@@ -34,9 +35,20 @@ class OwnerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $data)
     {
         //
+        $search_text = $data->search;
+        $owners=DB::table('users')
+        ->select('*')
+        ->join('companies','companies.user_id','=','users.id')
+        ->orWhere('name', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('email', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('phone', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('role', 'LIKE', '%'.$search_text.'%')
+        ->orWhere('companies.company_name', 'LIKE', '%'.$search_text.'%')
+        ->paginate(10);
+        return view('admin.pages.owners',compact('owners'));
     }
 
     /**

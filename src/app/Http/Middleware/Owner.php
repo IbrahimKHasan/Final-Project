@@ -3,10 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
-class User
+class Owner
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class User
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->role == 'user'){
+        if (Auth::user()->role == 'owner'){
             return redirect('/');
             }
         return $next($request);

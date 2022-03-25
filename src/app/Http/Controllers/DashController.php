@@ -20,7 +20,7 @@ class DashController extends Controller
         switch (Auth::user()->role)
         {
             case 'admin':
-                $nousers=User::all()->count();
+                $nousers=User::where('role','user')->count();
                 $nobookings = DB::table('company_users')->count();
                 $noowners = User::where('role','owner')->count();
                 $owners = User::where('role','owner')
@@ -76,7 +76,7 @@ class DashController extends Controller
                     // $users[] = $users_object[0];
                     //   }
                 }
-                    $nousers=User::all()->count();
+                    $nousers=User::where('role','user')->count();
                 if ($id==null){
                     $nobookings=0;
                     $revenue = 0;

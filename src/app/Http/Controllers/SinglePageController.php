@@ -111,7 +111,10 @@ class SinglePageController extends Controller
         $company=Company::where('company_id',$id)->first();
         if (Auth::user()!=null){
         $user = Review::where('user_id',Auth::user()->id)->where('company_id',$id)->count();
-        $booking = DB::table('company_users')->where('user_id',Auth::user()->id)->count();
+        $booking = DB::table('company_users')
+        ->where('company_id',$id)
+        ->where('user_id',Auth::user()->id)->count();
+        // dd($booking);
         if ($booking > 0){
         if ($user>=1){
             $check = 'no';
@@ -121,11 +124,11 @@ class SinglePageController extends Controller
     }else{
         $check = 'no booking';
     }
-        // if ($booking > 0){
-        //     $booking_check = true;
-        // }else{
-        //     $booking_check = false;
-        // }
+        if ($booking > 0){
+            $booking_check = true;
+        }else{
+            $booking_check = false;
+        }
     }
     if (Auth::user()==null){
         $check = 'guest';

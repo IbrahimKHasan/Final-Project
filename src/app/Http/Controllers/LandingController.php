@@ -15,8 +15,8 @@ class LandingController extends Controller
     public function index()
     {
         //
-        $companies=Company::all()->sortByDesc('company_rate')->take(3);
-        $new_companies=Company::all()->take(3);
+        $companies=Company::all()->sortByDesc('company_rate')->take(5);
+        $new_companies=Company::all()->take(5);
         return view('public.pages.landing',compact('companies','new_companies'));
     }
 

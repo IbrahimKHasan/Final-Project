@@ -15,8 +15,8 @@ class ReviewFactory extends Factory
     {
         return [
             //
-            'user_id' => $this->faker->unique()->numberBetween(2,101),
-            'company_id' => $this->faker->numberBetween(1,50),
+            'user_id' => $this->faker->unique()->numberBetween(503,1002),
+            'company_id' => $this->faker->numberBetween(1,500),
             'review_body' => $this->faker->text(),
             'review_rate' => $this->faker->numberBetween(1,5),
 

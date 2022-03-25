@@ -10,10 +10,26 @@
                         <form action="{{ route('companies.store') }}" method="post">
                             @csrf
                             <div style="width: 40%;display:inline-block">
+                                <input type="hidden" name="type" value="search">
                                 <input class="form-control" type="text" name="search" placeholder="Search">
                             </div>
                             <div style="display:inline-block">
                                 <input class="btn btn-primary" type="submit" value="Search">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mb-4" style="width: 100%">
+                        <form action="{{ route('companies.store') }}" method="post">
+                            @csrf
+                            <div style="width: 40%;display:inline-block">
+                                <input type="hidden" name="type" value="filter">
+                                <select class="form-control" name="filter" id="">
+                                    <option value="high">Highest rate , Available</option>
+                                    <option value="low">Lowest Rate , Available</option>
+                                </select>
+                            </div>
+                            <div style="display:inline-block">
+                                <input class="btn btn-primary" type="submit" value="Filter">
                             </div>
                         </form>
                     </div>
@@ -31,17 +47,18 @@
                                 <div class="d-flex flex-row">
                                     <div class="ratings mr-2">
                                         <?php $rate = ('App\Models\Review')::where('company_id', $company->company_id)->avg('review_rate'); ?>
-                                        <span class="fw-bold">({{ round($rate, 1) }})</span>
-                                        @for ($i = 1; $i <= ceil($rate); $i++)
+                                        {{-- <span class="fw-bold">({{ round($rate, 1) }})</span> --}}
+                                        <span class="fw-bold">({{ round($company->company_rate, 1) }})</span>
+                                        @for ($i = 1; $i <= ceil($company->company_rate); $i++)
                                             <i class="fa fa-star"></i>
                                         @endfor
                                         <?php $rate_count = ('App\Models\Review')::where('company_id', $company->company_id)->count(); ?>
-                                        <small class="fw-light">({{ $rate_count }})</small>
+                                        <small class="fw-light">({{ $company->company_rate_count }})</small>
                                     </div><span></span>
                                 </div>
                                 {{-- <small>No. of Bookings: {{ $company->company_bookings_count }}</small> --}}
                                 <?php $count = ('App\Models\CompanyUser')::where('company_id', $company->company_id)->count(); ?>
-                                <small>No. of Bookings: {{ $count }}</small>
+                                <small>No. of Bookings: {{ $company->company_bookings_count }}</small>
                                 <div class="mt-1 mb-1 spec-1"><span>Bedroom: {{ $company->bedroom_price }}
                                         JD</span><span class="dot"></span><span>Livingroom:
                                         {{ $company->livingroom_price }}
@@ -71,8 +88,6 @@
                                     <button class="btn btn-primary btn-sm" type="button"><a
                                             style="color:white;text-decoration:none"
                                             href="{{ route('company.show', $company->company_id) }}">Details</a></button>
-                                    <button class="btn btn-outline-primary btn-sm mt-2" type="button">Add to
-                                        wishlist</button>
                                 </div>
                             </div>
                         </div>

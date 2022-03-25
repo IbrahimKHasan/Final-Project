@@ -85,8 +85,12 @@ class UserProfileController extends Controller
      */
     public function update(Request $data, $id)
     {
+        if ($data->image == null){
+            $image = User::where('id',$id)->first()->image;
+        }else{
         $image = 'IMG'.'-'.time().'.'.$data->image->extension();
         $data->image->move(public_path('assets/images/users'),$image);
+        }
         User::where('id',$id)->update([
             'name' => $data['name'],
             'email' => $data['email'],

@@ -21,7 +21,7 @@ class Company extends Model
         'km_price',
         'pack_price',
         'status',
-        'company_rate',
+        'company_rate'=>"double",
         'company_rate_count',
         'company_bookings_count',
         'company_image',

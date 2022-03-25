@@ -10,6 +10,7 @@
         <form action="{{ route('companies.store') }}" method="post">
             @csrf
             <div style="width: 31%;display:inline-block">
+                <input type="hidden" name="type" value="search">
                 <input class="form-control" type="text" name="search" placeholder="Search">
             </div>
             <div style="display:inline-block">
@@ -34,17 +35,18 @@
                                 <div class="d-flex flex-row">
                                     <div class="ratings mr-2">
                                         <?php $rate = ('App\Models\Review')::where('company_id', $company->company_id)->avg('review_rate'); ?>
-                                        <span class="fw-bold">({{ round($rate, 1) }})</span>
-                                        @for ($i = 1; $i <= ceil($rate); $i++)
+                                        {{-- <span class="fw-bold">({{ round($rate, 1) }})</span> --}}
+                                        <span class="fw-bold">({{ round($company->company_rate, 1) }})</span>
+                                        @for ($i = 1; $i <= ceil($company->company_rate); $i++)
                                             <i class="fa fa-star"></i>
                                         @endfor
                                         <?php $rate_count = ('App\Models\Review')::where('company_id', $company->company_id)->count(); ?>
-                                        <small class="fw-light">({{ $rate_count }})</small>
+                                        <small class="fw-light">({{ $company->company_rate_count }})</small>
                                     </div><span></span>
                                 </div>
                                 {{-- <small>No. of Bookings: {{ $company->company_bookings_count }}</small> --}}
                                 <?php $count = ('App\Models\CompanyUser')::where('company_id', $company->company_id)->count(); ?>
-                                <small>No. of Bookings: {{ $count }}</small>
+                                <small>No. of Bookings: {{ $company->company_bookings_count }}</small>
                                 <div class="mt-1 mb-1 spec-1"><span>Bedroom: {{ $company->bedroom_price }}
                                         JD</span><span class="dot"></span><span>Livingroom:
                                         {{ $company->livingroom_price }}

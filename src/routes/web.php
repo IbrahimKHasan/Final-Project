@@ -34,11 +34,13 @@ Route::get('/admin', function () {
 Route::name('admin.')->prefix('admin')->middleware('auth','user')->group(function () {
     Route::resource("", DashController::class);
     Route::resource("/booking", CompanyUserController::class);
-	Route::resource("manage-users", UserController::class);
 	Route::resource("manage-companies", CompanyController::class);
 	Route::resource("manage-contacts", ContactAdminController::class);
 	Route::resource("manage-reviews", ReviewController::class);
 	Route::resource("owners", OwnerController::class);
+});
+Route::name('admin.')->prefix('admin')->middleware('auth','user','owner')->group(function () {
+Route::resource("manage-users", UserController::class);
 });
 
 Route::resource("/", LandingController::class);

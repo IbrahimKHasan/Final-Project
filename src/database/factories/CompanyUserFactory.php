@@ -14,12 +14,13 @@ class CompanyUserFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => $this->faker->numberBetween(2,101),
-            'company_id' => $this->faker->numberBetween(1,50),
+            'user_id' => $this->faker->numberBetween(503,1002),
+            'company_id' => $this->faker->numberBetween(1,500),
             'user_email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
             'price' => $this->faker->numberBetween(50,220),
-            'date' => $this->faker->unique()->date()
+            'date' => $this->faker->unique()->date(),
+            'status'=>$this->faker->randomElement(['completed','pending','in progress'])
         ];
     }
 }
