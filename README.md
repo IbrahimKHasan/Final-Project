@@ -19,7 +19,7 @@ Furniture Moving is a website that previews the furniture moving companies and i
 * HTML 
 * CSS
 * Bootstrap    
-* Jvascript
+* Javascript
 * PHP     
 * MySQl
 * Laravel
